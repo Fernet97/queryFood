@@ -61,6 +61,11 @@ csvtojson().fromFile(CSVrecipeDetails).then(source => {
 // ******************************************
 
 
+// **** Configura Template Engine EJS x front-end ****
+app.set('view engine', 'ejs');
+
+
+
 
 app.get('/', (req, res) => {
   res.send('*** PROGETTO DB2 ***')
