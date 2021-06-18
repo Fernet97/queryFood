@@ -1,2 +1,19 @@
-<h1>Progetto BD2</h1>
-<p>Scriviamo qualcosa a caso</p>
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <title>ProgettoDB2</title>
+</head>
+
+<body>
+  <h1>PROGETTO BASE DI DATI 2</h1>
+  <p>Lista delle ricette:</p>
+  <ul>
+    <% listaRicette.forEach(function(item,index){ %>
+        <li><i>"<%= item.Title %>"</i> , <%= item.Cuisine %> </li>
+    <% }) %>
+  </ul>
+</body>
+
+
+</html>

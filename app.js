@@ -62,15 +62,15 @@ csvtojson().fromFile(CSVrecipeDetails).then(source => {
 
 
 // **** Configura Template Engine EJS x front-end ****
+// PS: assicurati di aver dato: npm install ejs
 app.set('view engine', 'ejs');
 
 
 
-
 app.get('/', (req, res) => {
-  res.send('*** PROGETTO DB2 ***')
+   res.render('home', {listaRicette: arrayToInsert})
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Sono in ascolto su http://localhost:${port}`)
 })
