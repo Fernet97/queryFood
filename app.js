@@ -48,7 +48,6 @@ csvtojson().fromFile(CSVrecipeDetails).then(source => {
 
     console.log("Importazione nel db ...");
 
-     //inserting into the table “employees”
     var collectionName = 'Recipe';
     var collection = connection.collection(collectionName);
     collection.insertMany(arrayToInsert, (err, result) => {
