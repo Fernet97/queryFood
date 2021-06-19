@@ -1,7 +1,11 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const csvtojson = require('csvtojson');
+var path = require('path');
 require('dotenv').config()
+
+
+var publico = path.join(__dirname, 'public');
 
 const port = process.env.PORT || 3000;
 const url = process.env.LOCAL_MONGO_CONNECTION;
@@ -63,7 +67,6 @@ csvtojson().fromFile(CSVrecipeDetails).then(source => {
 // **** Configura Template Engine EJS x front-end ****
 // PS: assicurati di aver dato: npm install ejs
 app.set('view engine', 'ejs');
-
 
 
 app.get('/', (req, res) => {
