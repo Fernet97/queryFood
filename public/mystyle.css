@@ -1,3 +1,38 @@
 body{
-  background-color: lightblue;
+	background-color: #F9FCFB;
+   font-family: "Jost", "serif";
+}
+
+
+.bg-light {
+    background-color: #FD5E53!important;
+}
+
+
+
+.container{
+	display: flex;
+	flex-wrap: wrap;
+  /* height: 90vh; */
+	justify-content: center;
+	padding: 10px;
+  margin-top: 2vh;
+
+}
+
+#MyHeader{
+  font-size: 20px;
+  color: black;
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#googleMap{
+  width: 100vw;
+  height: 60vh;
+  /* border: 2px solid black;
+  border-radius: 30px; */
 }
