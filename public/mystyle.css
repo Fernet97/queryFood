@@ -31,8 +31,36 @@ body{
 }
 
 #googleMap{
-  width: 100vw;
+  width: 96vw;
   height: 60vh;
-  /* border: 2px solid black;
-  border-radius: 30px; */
+  border: 2px;
+  border-radius: 30px;
+}
+
+
+.queryNationContainer{
+  margin: 5%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  /* background-color: red; */
+}
+
+
+.piattoItem{
+  border: 2px;
+  border-radius: 30px;
+  -webkit-box-shadow: 0px 5px 14px -6px rgba(0,0,0,0.79);
+  box-shadow: 0px 5px 14px -6px rgba(0,0,0,0.79);
+  height: 150px;
+  margin: 40px 0 40px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+a.page-link{
+  color: black;
 }

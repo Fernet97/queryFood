@@ -1,0 +1,47 @@
+<div  class= "container-fluid">
+
+  <div style="font-size: 40px; text-align: center">
+    Cucina italiana 🍝
+  </div>
+
+  <div class = "queryNationContainer">
+
+    <div style="width: 900px;">
+    <%- include('piattoItem');-%>
+    <%- include('piattoItem');-%>
+    <%- include('piattoItem');-%>
+    <%- include('piattoItem');-%>
+    </div>
+
+    <div class="card" style="width: 18rem;   border-radius: 30px;">
+      <div class="card-header" style = "text-align: center; background-color: #21BF73;">
+        Ingredienti più usati in Italia
+      </div>
+      <ul class="list-group list-group-flush" style = "align-items: center;">
+        <li class="list-group-item"  style = "font-weight: normal;"><b>1.</b> Pasta 🏆</li>
+        <li class="list-group-item" style = "font-weight: normal;"><b>2.</b> Pomodori</li>
+        <li class="list-group-item" style = "font-weight: normal;"><b>3.</b> Mozzarella</li>
+      </ul>
+    </div>
+  </div>
+  <!-- cambio pagina -->
+  <nav aria-label="Page navigation example" >
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+
+</div>
