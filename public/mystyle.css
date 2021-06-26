@@ -39,7 +39,7 @@ body{
 
 
 .queryNationContainer{
-  margin: 5%;
+  margin: 50px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -61,6 +61,53 @@ body{
   padding: 10px;
 }
 
+.piattoItem:hover{
+	-ms-transform: scale(1.1,1.1);
+	-webkit-transform: scale(1.1,1.1);
+	-moz-transform: scale(1.1,1.1);
+	-o-transform: scale(1.1,1.1);
+}
+
+.textPiattoItem{
+	width: 78%;
+	justify-content: center;
+	font-size: medium;
+}
+
+
 a.page-link{
   color: black;
+}
+
+
+.listIngredient{
+	justify-content: center;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	margin: 20px;
+}
+
+.imgIngredient{
+	width: 150px;
+	height: auto;
+	border-radius: 50%;
+	margin: 10px;
+	-webkit-box-shadow: 5px 5px 15px -4px #000000;
+box-shadow: 5px 5px 15px -4px #000000;
+}
+
+.imgIngredient:hover{
+	-ms-transform: scale(1.1,1.1);
+	-webkit-transform: scale(1.1,1.1);
+	-moz-transform: scale(1.1,1.1);
+	-o-transform: scale(1.1,1.1);
+}
+
+@media screen and (max-width: 600px) {
+
+	.textPiattoItem{
+		font-size: small;
+	}
+
 }
