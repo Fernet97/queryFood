@@ -1,0 +1,61 @@
+<div  class= "container-fluid">
+
+  <div style="font-size: 40px; text-align: center">Ricerche nel mondo 🌎</div>
+  <div style="font-size: 20px; text-align: center">
+    ~ Cerca piatti selezionando una categoria di ingredienti ~
+  </div>
+
+  <div class = "listIngredient">
+    <script>
+      function selected(){
+        var item = document.getElementsByClassName("imgIngredient");
+      }
+    </script>
+    <img onclick="selected()" src="ingredientsImg/spezie.jpg" class = "imgIngredient" alt="spezie">
+    <img onclick="selected()" src="ingredientsImg/cereali.jpg" class = "imgIngredient" alt="cereali">
+    <img onclick="selected()" src="ingredientsImg/fruit.jpg" class = "imgIngredient"  alt="fruit">
+    <img onclick="selected()" src="ingredientsImg/vegetables.jpg" class = "imgIngredient" alt="vegetables">
+    <img onclick="selected()" src="ingredientsImg/meat.jpg" class = "imgIngredient" alt="meat">
+    <img onclick="selected()" src="ingredientsImg/fish.jpg" class = "imgIngredient" alt="fish">
+    <img onclick="selected()" src="ingredientsImg/bakery.jpg" class = "imgIngredient" alt="bakery">
+    <img onclick="selected()" src="ingredientsImg/alcolici.jpg" class = "imgIngredient" alt="alcolici">
+    <img onclick="selected()" src="ingredientsImg/latticini.jpg" class = "imgIngredient" alt="latticini">
+  </div>
+
+
+    <div style = "display: flex; justify-content: space-around; flex-wrap: wrap; flex-direction: row; ">
+      <%- include('items/piattoCategoryItem');-%>
+      <%- include('items/piattoCategoryItem');-%>
+      <%- include('items/piattoCategoryItem');-%>
+      <%- include('items/piattoCategoryItem');-%>
+      <%- include('items/piattoCategoryItem');-%>
+      <%- include('items/piattoCategoryItem');-%>
+      <%- include('items/piattoCategoryItem');-%>
+      <%- include('items/piattoCategoryItem');-%>
+    </div>
+
+
+    <!-- cambio pagina -->
+    <nav aria-label="Page navigation example" >
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+
+
+
+
+</div>

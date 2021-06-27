@@ -1,0 +1,63 @@
+<div class="container-fluid" style="margin-top: 40px;
+ display: flex; flex-direction: column;
+ align-items: center;">
+  <div style="font-size: 20px; text-align: center; margin: 10px;">
+    ~ Cerca piatti per ingrediente ~
+  </div>
+  <form class="d-flex" style="width: 50vw;">
+    <input class="form-control me-2"  type="search" placeholder="Specifica un ingrediente ..." aria-label="Search">
+    <button class="btn btn-outline-success" style = "background-color: #21BF73; color: white" type="submit">Search</button>
+  </form>
+
+  <div class = "container" style= "display: flex; flex-wrap: wrap; flex-direction: row;
+  justify-content: space-between; align-items: center;">
+
+    <div style="width: 700px;">
+      <%- include('items/dishInListItem');-%>
+      <%- include('items/dishInListItem');-%>
+      <%- include('items/dishInListItem');-%>
+      <%- include('items/dishInListItem');-%>
+      <%- include('items/dishInListItem');-%>
+      <%- include('items/dishInListItem');-%>
+      <%- include('items/dishInListItem');-%>
+      <%- include('items/dishInListItem');-%>
+
+    </div>
+
+    <div class="card" style="width: 18rem; text-align: center; border-radius: 30px; padding: 20px; margin: 20px;">
+      <img src="https://www.countryflags.io/BE/flat/64.png" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title"><b>Belgio</b></h5>
+        <p class="card-text" style = "font-weight: normal;">È il paese che utilizza maggiormente carne nella sua cucina.</p>
+      </div>
+      <ul class="list-group list-group-flush" style = "font-weight: normal;">
+        <li class="list-group-item" style = "font-weight: bold;"><i> <b>1.</b> Belgio</i></li>
+        <li class="list-group-item"><i> 2. Lituania </i></li>
+        <li class="list-group-item"> <i>3. Francia</i></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  <!-- cambio pagina -->
+  <nav aria-label="Page navigation example" >
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+
+</div>
