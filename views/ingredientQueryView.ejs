@@ -4,10 +4,36 @@
   <div style="font-size: 20px; text-align: center; margin: 10px;">
     ~ Cerca piatti per ingrediente ~
   </div>
-  <form class="d-flex" style="width: 50vw;">
-    <input class="form-control me-2"  type="search" placeholder="Specifica un ingrediente ..." aria-label="Search">
-    <button class="btn btn-outline-success" style = "background-color: #21BF73; color: white" type="submit">Search</button>
-  </form>
+
+
+  <div class="d-flex" style="width: 50vw;">
+    <input id = "searchBar" class="form-control me-2"  type="search" placeholder="Specifica un ingrediente ..." aria-label="Search">
+    <button class="btn btn-outline-success" style = "background-color: #21BF73; color: white" id="enter">Search</button>
+  </div>
+
+  <script type="text/javascript">
+      $('#enter').click(function(){
+       $.ajax({
+             url: '/prova',
+             type: 'POST',
+             cache: false,
+             dataType: 'json',
+             data: { ingredient:  $("#searchBar").val()},
+             success: function (result) {
+                  console.log(result.ricette);
+                  if(result.status == 200){
+                     console.log("OK");
+                  }
+              }
+             , error: function(result){
+                  console.log(result);
+              }
+          })
+       });
+
+  </script>
+
+
 
   <div class = "container" style= "display: flex; flex-wrap: wrap; flex-direction: row;
   justify-content: space-between; align-items: center;">

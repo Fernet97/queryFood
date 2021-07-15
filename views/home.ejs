@@ -11,17 +11,21 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost">
   <script src="http://maps.googleapis.com/maps/api/js"></script>
   <script type="text/javascript" src="markerManager.js"></script>
+
+  <!-- X AJAX -->
+  <script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
   <script>
     var myCenter=new google.maps.LatLng(42.492595, 12.845449); // Italy
     var centers = []
 
     centers.push(new google.maps.LatLng(42.492595, 12.845449) )                     // Italy
     centers.push(new google.maps.LatLng(39.095962936305476, 22.082519531250004) )   // Grecia
-    centers.push(new google.maps.LatLng(46.95026224218562, 2.3510742187500004) )    // Francia 
-    centers.push(new google.maps.LatLng(52.10650519075632, 5.097656250000001) )     // Olanda 
-    centers.push(new google.maps.LatLng(-7.449624260197816, -58.53515625000001) )   // South America 
-    centers.push(new google.maps.LatLng(40.44694705960048, -3.6914062500000004) )   // Spain 
-    centers.push(new google.maps.LatLng(51.45400691005982, 23.818359375000004) )    // Eastern Europe 
+    centers.push(new google.maps.LatLng(46.95026224218562, 2.3510742187500004) )    // Francia
+    centers.push(new google.maps.LatLng(52.10650519075632, 5.097656250000001) )     // Olanda
+    centers.push(new google.maps.LatLng(-7.449624260197816, -58.53515625000001) )   // South America
+    centers.push(new google.maps.LatLng(40.44694705960048, -3.6914062500000004) )   // Spain
+    centers.push(new google.maps.LatLng(51.45400691005982, 23.818359375000004) )    // Eastern Europe
     centers.push(new google.maps.LatLng(16.97274101999902, -97.3828125) )           // Central America
     centers.push(new google.maps.LatLng(7.36246686553575, 20.039062500000004) )     // Africa
     centers.push(new google.maps.LatLng(-24.046463999666567, 134.12109375000003) )  // Australia
@@ -49,15 +53,15 @@
                           "Cucina greca",
                           "Cucina francese" ,
                           "Cucina olandese" ,
-                          "Cucina sud americana", 
-                          "Cucina spagnola", 
-                          "Cucina del est Europa" , 
-                          "Cucina dell'America centrale" , 
-                          "Cucina africana", 
-                          "Cucina austaliana", 
-                          "Cucina canadese" , 
-                          "Cucina americana", 
-                          "Cucina cinese" , 
+                          "Cucina sud americana",
+                          "Cucina spagnola",
+                          "Cucina del est Europa" ,
+                          "Cucina dell'America centrale" ,
+                          "Cucina africana",
+                          "Cucina austaliana",
+                          "Cucina canadese" ,
+                          "Cucina americana",
+                          "Cucina cinese" ,
                           "Cucina portoghese" ,
                           "Cucina del sud-est asiatico",
                           "Cucina thailandese",
@@ -70,10 +74,10 @@
                           "Cucina caraibica",
                           "Cucina messicana",
                           "Cucina belga",
-                          "Cucina tedesca" 
+                          "Cucina tedesca"
                       ]
-                      
-  
+
+
   country_array = [
                       'Italy',
                       'Greece' ,
@@ -100,7 +104,7 @@
                       'Caribbean',
                       'Mexico' ,
                       'Misc.: Belgian',
-                      'DACH Countries'                      
+                      'DACH Countries'
                   ]
 
 
@@ -123,7 +127,7 @@
       {
         marker = new google.maps.Marker({position: centers[i]});
         marker.setMap(map)
-       
+
 
         var infowindow = new google.maps.InfoWindow({ content:infoWindow_array[i]});
 
@@ -131,34 +135,34 @@
         // // assuming you also want to hide the infowindow when user mouses-out
         // marker.addListener('mouseout', function() { infowindow.close(); } );
 
-       
-        // google.maps.event.addListener(marker, 'click', function() { infowindow.open(map,marker); }); 
 
-        
+        // google.maps.event.addListener(marker, 'click', function() { infowindow.open(map,marker); });
 
-        //qui ci va la query di ricerca piatti per nazionalità 
+
+
+        //qui ci va la query di ricerca piatti per nazionalità
         function f(str)
         {
           return function()
           {
             console.log("ho fatto click su ", str)
           }
-          
+
         }
 
         //google.maps.event.addListener(marker,'click', ( function(marker,content,infowindow) { return function() { infowindow.setContent(content); infowindow.open(map,marker); }; } )(marker,infoWindow_array[i],infowindow) );
-        
-        // funzine che ci server per avviare la query di ricerca di ricette per 
+
+        // funzine che ci server per avviare la query di ricerca di ricette per
         google.maps.event.addListener(marker,'click', f(country_array[i]) );
 
-        google.maps.event.addListener(marker,'mouseover', (function(marker,content,infowindow){ 
+        google.maps.event.addListener(marker,'mouseover', (function(marker,content,infowindow){
           return function() {
             infowindow.setContent(content);
             infowindow.open(map,marker);
           };
         })(marker,infoWindow_array[i],infowindow));
 
-        google.maps.event.addListener(marker,'mouseout', (function(marker,content,infowindow){ 
+        google.maps.event.addListener(marker,'mouseout', (function(marker,content,infowindow){
           return function() {
             //infowindow.setContent(content);
             infowindow.close();
