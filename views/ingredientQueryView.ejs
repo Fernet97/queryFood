@@ -20,10 +20,23 @@
              dataType: 'json',
              data: { ingredient:  $("#searchBar").val()},
              success: function (result) {
-                  console.log(result.ricette);
                   if(result.status == 200){
                      console.log("OK");
                   }
+
+                  console.log(result.ricette);
+
+                  //Inserisci item dinamici
+                  //var container = document.getElementById("containerProva");
+                  //container.append( "<p>Test</p>" );
+                  var elements = document.getElementsByClassName("TitleRecipe");
+                  var elementsD = document.getElementsByClassName("RecipeContent");
+
+                  for(let i = 0; i < 8; i = i+ 1){
+                    console.log(elements[i]);
+                    elements[i].innerHTML = result.ricette[i].name;
+                  }
+
               }
              , error: function(result){
                   console.log(result);
@@ -38,7 +51,7 @@
   <div class = "container" style= "display: flex; flex-wrap: wrap; flex-direction: row;
   justify-content: space-between; align-items: center;">
 
-    <div style="width: 700px;">
+    <div style="width: 700px;" id = "containerProva">
       <%- include('items/dishInListItem');-%>
       <%- include('items/dishInListItem');-%>
       <%- include('items/dishInListItem');-%>
