@@ -50,19 +50,22 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.post('/prova', (req, res) => {
+
+app.post('/findRecipeByIngredient', (req, res) => {
   var queriesModel = require('./utils/queries');
-
   var ingredient = req.body.ingredient;
+  let query = queriesModel.findRecipeByIngredient(ingredient);
+  query.then(
+     (list) => {
+       console.log(list);
+       var response = {
+         ricette : list,
+     }
+     res.end(JSON.stringify(response));
 
-
-    var response = {
-      status  : 200,
-      ricette : queriesModel.findRecipeByIngredient(ingredient)
-  }
-
-  res.end(JSON.stringify(response));
-
+     },
+   (err) => {console.log(err)}
+   );
 })
 
 //****************************

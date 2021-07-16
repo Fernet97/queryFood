@@ -48,19 +48,14 @@ var dishfloadModel =  mongoose.model('dishfload', dishfload)
 
 
 var findRecipeByIngredient = function(ingredient){
-  var ricette = [];
-
   var query  =  dishfloadModel.find({
-        'ingredients': {
-            $elemMatch : {
-                'ingredient_name' : ingredient
-            }
-        }
-    });
-
-   ricette = query.exec();
-
-  return ricette;
+                      'ingredients': {
+                          $elemMatch : {
+                              'ingredient_name' : ingredient
+                          }
+                      }
+                  });
+  return query;
 }
 
 var ricette = findRecipeByIngredient('lemon');
@@ -68,17 +63,13 @@ console.log(ricette);
 
 
 var findRecipeByCategory = function (category){
-dishfloadModel.find({
-    'ingredients': {
-        $elemMatch : {
-            'categoria' : category
+    dishfloadModel.find({
+        'ingredients': {
+            $elemMatch : {
+                'categoria' : category
+            }
         }
-    }
-}, function (err, docs) {
-
-	console.log(docs);
-	//console.log(docs[0]._id);
-});
+    });
 }
 
 
