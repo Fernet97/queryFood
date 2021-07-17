@@ -91,16 +91,84 @@
 
     </div>
 
+
+
+
+    <script type="text/javascript">
+
+        $('#enter').click(function(){
+
+          flagDictionary = {
+                            Italy: "IT",
+                            Greece: "GR" ,
+                            France: "FR",
+                            // "Misc.: Dutch": "AN" ,
+                            // South America: "NULL",
+                            Spain: "ES" ,
+                            // "Eastern Europe": "EU" ,
+                            // "Misc.: Central America", "NULL" ,
+                            Africa: "NULL" ,
+                            "Australia & NZ": "AU" ,
+                            Canada: "CA" ,
+                            USA: "US" ,
+                            China: "CN" ,
+                            "Misc.: Portugal": "PT" ,
+                            "South East Asi": "NULL" ,
+                            Thailand: "TH" ,
+                            "British Isles": "GB" ,
+                            Scandinavia: "NULL" ,
+                            "Indian Subcontinent": "IN" ,
+                            "Middle East": "NULL" ,
+                            Japan: "JP" ,
+                            Korea : "KP" ,
+                            Caribbean: "NULL",
+                            Mexico: "MX" ,
+                            "Misc.: Belgian": "BE",
+                            "DACH Countries": "NULL",
+                        };
+
+         $.ajax({
+               url: '/findTopCuisineByIngredient',
+               type: 'POST',
+               cache: false,
+               dataType: 'json',
+               data: { ingredient:  $("#searchBar").val()},
+               success: function (result) {
+                    if(result.status == 200){
+                       console.log("OK");
+                    }
+                    console.log(result.ricette[0]._id, result.ricette[2]._id,  result.ricette[3]._id);
+                    document.getElementById("TopNationIngredient").innerHTML = result.ricette[0]._id;
+                    document.getElementById("TopNationIngredientDescr").innerHTML = "È il paese che utilizza maggiormente \""+$("#searchBar").val() +"\" nella sua cucina."
+
+                    var itemNation = document.getElementsByClassName("itemNation");
+                    var flag = document.getElementById("nationFlag");
+
+                    console.log(itemNation.length);
+                    for(let i = 0; i < 3; i = i + 1){
+                        itemNation[i].innerHTML = i+1 +". "+ result.ricette[i]._id;
+                    }
+
+                    flag.src = "https://www.countryflags.io/"+flagDictionary[result.ricette[0]._id]+"/flat/64.png"
+
+
+                }
+               , error: function(result){
+                    console.log(result);
+                }
+            })
+         });
+    </script>
     <div class="card" id = "PaesePiuAbuso" style="width: 18rem; text-align: center; border-radius: 30px; padding: 20px; margin: 20px;" hidden>
-      <img src="https://www.countryflags.io/BE/flat/64.png" class="card-img-top" alt="...">
+      <img src="" class="card-img-top" id= "nationFlag" alt="...">
       <div class="card-body">
-        <h5 class="card-title"><b>Belgio</b></h5>
-        <p class="card-text" style = "font-weight: normal;">È il paese che utilizza maggiormente carne nella sua cucina.</p>
+        <h5 class="card-title"><b id= "TopNationIngredient"> - - - </b></h5>
+        <p class="card-text" style = "font-weight: normal;"  id= "TopNationIngredientDescr">È il paese che utilizza maggiormente -- nella sua cucina.</p>
       </div>
       <ul class="list-group list-group-flush" style = "font-weight: normal;">
-        <li class="list-group-item" style = "font-weight: bold;"><i> <b>1.</b> Belgio</i></li>
-        <li class="list-group-item"><i> 2. Lituania </i></li>
-        <li class="list-group-item"> <i>3. Francia</i></li>
+        <li class="list-group-item" style = "font-weight: bold;"><i class= "itemNation"> - - - </i></li>
+        <li class="list-group-item"><i class= "itemNation"> - - - </i></li>
+        <li class="list-group-item"> <i class= "itemNation"> - - - </i></li>
       </ul>
     </div>
   </div>
