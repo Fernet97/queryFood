@@ -154,10 +154,28 @@ function initialize()
 
                       var elementsTitles = document.getElementsByClassName("TitleRecipeNation");
                       var elementsDescriptions = document.getElementsByClassName("RecipeContentNation");
+                      var elementsImage = document.getElementsByClassName("imgInItem");
 
                       for(let i = 0; i < 4; i = i+ 1){
-                        if(elementsDescriptions[i])
+                        if(elementsTitles[i]){
                           elementsTitles[i].innerHTML = result.ricette[i].name;
+                              //API per immagini ricetta
+                               const settings = {
+                                 	"async": true,
+                                	"crossDomain": true,
+                                	"url": "https://bing-image-search1.p.rapidapi.com/images/search?q="+result.ricette[i].name,
+                                	"method": "GET",
+                                 	"headers": {
+                                 		"x-rapidapi-key": "ec93995b4dmsh2d2c7afa5870d4cp1a18b5jsn2347d0d21baeMMMH",
+                                 		"x-rapidapi-host": "bing-image-search1.p.rapidapi.com"
+                                 	}
+                              };
+                             $.ajax(settings).done(function (response) {
+                            	 console.log(response.value[0].contentUrl);
+                              elementsImage[i].src = response.value[0].contentUrl;
+                             });
+                        }
+
                         if(elementsDescriptions[i]){
                           let descr = " · ";
                           for(let j = 0; j < result.ricette[j].ingredients.length; j = j+ 1){

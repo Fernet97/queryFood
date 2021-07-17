@@ -23,9 +23,7 @@
                   if(result.status == 200){
                      console.log("OK");
                   }
-
                   console.log(result.ricette);
-
                   if(result.ricette.length > 0){
                      $('#containerdishInListItem').removeAttr('hidden');
                      $('#PaesePiuAbuso').removeAttr('hidden');
@@ -37,22 +35,39 @@
                     $('#PaesePiuAbuso').prop("hidden", true);
                     document.getElementById("resultQuery3").innerHTML = " Non ho trovato nessuna ricetta ";
                   }
-
                   var elementsTitles = document.getElementsByClassName("TitleRecipe");
                   var elementsDescriptions = document.getElementsByClassName("RecipeContent");
+                  var elementsImage = document.getElementsByClassName("imgInItem3");
+
 
                   for(let i = 0; i < 8; i = i+ 1){
-                    elementsTitles[i].innerHTML = result.ricette[i].name;
+                    if(elementsTitles[i]){
+                      elementsTitles[i].innerHTML = result.ricette[i].name;
+                          //API per immagini ricetta
+                           const settings = {
+                              "async": true,
+                              "crossDomain": true,
+                              "url": "https://bing-image-search1.p.rapidapi.com/images/search?q="+result.ricette[i].name,
+                              "method": "GET",
+                              "headers": {
+                                "x-rapidapi-key": "ec93995b4dmsh2d2c7afa5870d4cp1a18b5jsn2347d0d21baeMMMH",
+                                "x-rapidapi-host": "bing-image-search1.p.rapidapi.com"
+                              }
+                          };
+                         $.ajax(settings).done(function (response) {
+                           console.log(response.value[0].contentUrl);
+                          elementsImage[i].src = response.value[0].contentUrl;
+                         });
+                    }
+
                     elementsDescriptions[i].innerHTML = $("#searchBar").val();
                   }
-
               }
              , error: function(result){
                   console.log(result);
               }
           })
        });
-
   </script>
 
 
