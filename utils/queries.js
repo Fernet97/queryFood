@@ -46,37 +46,136 @@ const dishfload = Schema
 var dishfloadModel =  mongoose.model('dishfload', dishfload)
 
 
-
+/********* QUERY CERCA PIATTO PER INGREDIENTE ************/
+pattern = "salt";
 var findRecipeByIngredient = function(ingredient){
-  var query  =  dishfloadModel.find({
-                      'ingredients': {
-                          $elemMatch : {
-                              'ingredient_name' : ingredient
-                          }
-                      }
-                  });
+  var query = dishfloadModel.find({"ingredients.ingredient_name": {"$regex": pattern,"$options":"i"}});
   return query;
 }
 
 
 
+
+
+
+/********* QUERY CERCA PIATTO PER PIU CATEGORIE DI INGREDIENTI ************/
+var cat = ['Fruit','Spice'];
+var findRecipeByCategory = function(cat){
+
+	var query = dishfloadModel.find({"ingredients.categoria":{$all:cat}});
+	return query
+
+}
+
+
+
+
+
+/********* QUERY CERCA PIATTO PER NAZIONI ************/
+
 var findRecipeByNation = function(nation){
-	  var query  =  dishfloadModel.find({Cuisine: nation});
-    return query;
+
+	var query = dishfloadModel.find({Cuisine: nation});
+	return query;
+
 }
 
 
 
 
-var findRecipeByCategory = function (category){
-    dishfloadModel.find({
-        'ingredients': {
-            $elemMatch : {
-                'categoria' : category
-            }
-        }
-    });
+/********* QUERY CERCA TOP CATEGORIE PER NAZIONI ************/
+var findTopCategoryByCuisine = function(cuisine){
+
+ var query = dishfloadModel.aggregate([
+   {$match: { Cuisine: cuisine}},
+   {$unwind: "$ingredients"},
+   {$group: {_id: "$ingredients.categoria", total: { $sum: 1}}}
+]);
+return query;
+
 }
+
+
+
+
+/********* QUERY CERCA TOP NAZIONI PER CATEGORIA ************/
+var findTopCuisineByCategory = function(category){
+
+ var query = dishfloadModel.aggregate([
+   {$match: { "ingredients.categoria":category }},
+   {$unwind: "$ingredients"},
+   {$group: {_id: "$Cuisine", total: { $sum: 1}}}
+]);
+return query;
+
+}
+
+
+
+
+
+/********* QUERY CERCA PIATTI VEGANI ************/
+var veganCategory = ["Meat","Fish","Dairy"];
+
+var findVeganRecipe = function(veganCategory){
+
+	var query = dishfloadModel.find({"ingredients.categoria": {$nin: veganCategory}});
+
+return query;
+}
+
+
+
+
+/********* QUERY CERCA PIATTI VEGETARIANI ************/
+var vegetarianCategory = ["Meat","Fish"];
+
+var findVegetarianRecipe= function(vegetarianCategory){
+
+	var query = dishfloadModel.find({"ingredients.categoria": {$nin: vegetarianCategory}});
+
+return query;
+}
+
+
+
+
+/********* QUERY CONTA PIATTI PER NAZIONE ************/
+var countRecipeOfNations = function(){
+
+var query = dishfloadModel.aggregate([
+   {$group: {_id: "$Cuisine", total: { $sum: 1}}},
+   {$sort:{total:-1}}
+]);
+return query;
+}
+
+
+
+/********* QUERY CERCA TOP NAZIONI PER INGREDIENTE ************/
+var findTopCuisineByIngredient = function(pattern){
+
+ var query = dishfloadModel.aggregate([
+   {$unwind: "$ingredients"},
+   {$match: { "ingredients.ingredient_name":{"$regex": pattern,"$options":"i"}}},
+   {$group: {_id: "$Cuisine", total: { $sum: 1}}},
+   {$sort:{total:-1}}
+]);
+return query;
+}
+
+
+/********* QUERY CERCA TUTTI GLI INGREDIENTI ************/
+var findAllIngredients = function(){
+
+ var query = dishfloadModel.aggregate([
+   {$unwind: "$ingredients"},
+   {$group: {_id: "$ingredients.ingredient_name", total: { $sum: 1}}},
+   {$sort:{total:-1}}
+]);
+return query;
+}
+
 
 
 module.exports = {findRecipeByIngredient, findRecipeByNation, findRecipeByCategory};
