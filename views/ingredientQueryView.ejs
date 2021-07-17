@@ -26,15 +26,24 @@
 
                   console.log(result.ricette);
 
-                  //Inserisci item dinamici
-                  //var container = document.getElementById("containerProva");
-                  //container.append( "<p>Test</p>" );
-                  var elements = document.getElementsByClassName("TitleRecipe");
-                  var elementsD = document.getElementsByClassName("RecipeContent");
+                  if(result.ricette.length > 0){
+                     $('#containerdishInListItem').removeAttr('hidden');
+                     $('#PaesePiuAbuso').removeAttr('hidden');
+                     $('#resultQuery3').removeAttr('hidden');
+                     document.getElementById("resultQuery3").innerHTML =  "Trovate " + result.ricette.length + " ricette con "+$("#searchBar").val();
+                  }
+                  else{
+                    $('#containerdishInListItem').prop("hidden", true);
+                    $('#PaesePiuAbuso').prop("hidden", true);
+                    document.getElementById("resultQuery3").innerHTML = " Non ho trovato nessuna ricetta ";
+                  }
+
+                  var elementsTitles = document.getElementsByClassName("TitleRecipe");
+                  var elementsDescriptions = document.getElementsByClassName("RecipeContent");
 
                   for(let i = 0; i < 8; i = i+ 1){
-                    console.log(elements[i]);
-                    elements[i].innerHTML = result.ricette[i].name;
+                    elementsTitles[i].innerHTML = result.ricette[i].name;
+                    elementsDescriptions[i].innerHTML = $("#searchBar").val();
                   }
 
               }
@@ -47,11 +56,15 @@
   </script>
 
 
+  <div style="font-size: 20px; text-align: center; margin: 10px;" id= "resultQuery3" hidden >
+    Risultati trovati: --
+  </div>
+
 
   <div class = "container" style= "display: flex; flex-wrap: wrap; flex-direction: row;
   justify-content: space-between; align-items: center;">
 
-    <div style="width: 700px;" id = "containerProva">
+    <div style="width: 700px;" id = "containerdishInListItem" hidden>
       <%- include('items/dishInListItem');-%>
       <%- include('items/dishInListItem');-%>
       <%- include('items/dishInListItem');-%>
@@ -63,7 +76,7 @@
 
     </div>
 
-    <div class="card" style="width: 18rem; text-align: center; border-radius: 30px; padding: 20px; margin: 20px;">
+    <div class="card" id = "PaesePiuAbuso" style="width: 18rem; text-align: center; border-radius: 30px; padding: 20px; margin: 20px;" hidden>
       <img src="https://www.countryflags.io/BE/flat/64.png" class="card-img-top" alt="...">
       <div class="card-body">
         <h5 class="card-title"><b>Belgio</b></h5>

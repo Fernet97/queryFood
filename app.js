@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 var path = require('path');
-
+var favicon = require('serve-favicon')
 require('dotenv').config()
 
 
@@ -45,16 +45,33 @@ app.get('/', (req, res) => {
 })
 
 
-//****** AJAX?***************************
+//****** AJAX *************
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+var queriesModel = require('./utils/queries');
 
 
 app.post('/findRecipeByIngredient', (req, res) => {
-  var queriesModel = require('./utils/queries');
   var ingredient = req.body.ingredient;
   let query = queriesModel.findRecipeByIngredient(ingredient);
+  query.then(
+     (list) => {
+       console.log(list);
+       var response = {
+         ricette : list,
+     }
+     res.end(JSON.stringify(response));
+
+     },
+   (err) => {console.log(err)}
+   );
+})
+
+
+app.post('/findRecipeByNation', (req, res) => {
+  var nation = req.body.nation;
+  let query = queriesModel.findRecipeByNation(nation);
   query.then(
      (list) => {
        console.log(list);
@@ -72,6 +89,8 @@ app.post('/findRecipeByIngredient', (req, res) => {
 
 
 app.use('/', express.static(publico));
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.listen(port, () => {
   console.log(`Sono in ascolto su http://localhost:${port}`)

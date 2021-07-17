@@ -58,8 +58,14 @@ var findRecipeByIngredient = function(ingredient){
   return query;
 }
 
-var ricette = findRecipeByIngredient('lemon');
-console.log(ricette);
+
+
+var findRecipeByNation = function(nation){
+	  var query  =  dishfloadModel.find({Cuisine: nation});
+    return query;
+}
+
+
 
 
 var findRecipeByCategory = function (category){
@@ -73,4 +79,4 @@ var findRecipeByCategory = function (category){
 }
 
 
-module.exports = {findRecipeByIngredient,findRecipeByCategory};
+module.exports = {findRecipeByIngredient, findRecipeByNation, findRecipeByCategory};
