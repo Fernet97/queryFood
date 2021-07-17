@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-var queriesModel = require('./utils/queries');
+var queriesModel = require('./utils/queriesOLD');
 
 
 app.post('/findRecipeByIngredient', (req, res) => {
@@ -57,7 +57,7 @@ app.post('/findRecipeByIngredient', (req, res) => {
   let query = queriesModel.findRecipeByIngredient(ingredient);
   query.then(
      (list) => {
-       console.log(list);
+       console.log(list[0]);
        var response = {
          ricette : list,
      }
@@ -74,7 +74,7 @@ app.post('/findRecipeByNation', (req, res) => {
   let query = queriesModel.findRecipeByNation(nation);
   query.then(
      (list) => {
-       console.log(list);
+       console.log(list[0]);
        var response = {
          ricette : list,
      }
