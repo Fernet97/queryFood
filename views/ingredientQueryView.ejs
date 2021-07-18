@@ -23,11 +23,12 @@
                   if(result.status == 200){
                      console.log("OK");
                   }
-                  console.log(result.ricette);
+                  //console.log(result.ricette);
                   if(result.ricette.length > 0){
                      $('#containerdishInListItem').removeAttr('hidden');
                      $('#PaesePiuAbuso').removeAttr('hidden');
                      $('#resultQuery3').removeAttr('hidden');
+                     $('#pagination').removeAttr('hidden');
                      document.getElementById("resultQuery3").innerHTML =  "Trovate " + result.ricette.length + " ricette con "+$("#searchBar").val();
                   }
                   else{
@@ -55,7 +56,7 @@
                               }
                           };
                          $.ajax(settings).done(function (response) {
-                           console.log(response.value[0].contentUrl);
+                           //console.log(response.value[0].contentUrl);
                           elementsImage[i].src = response.value[0].contentUrl;
                          });
                     }
@@ -137,7 +138,7 @@
                     if(result.status == 200){
                        console.log("OK");
                     }
-                    console.log(result.ricette[0]._id, result.ricette[2]._id,  result.ricette[3]._id);
+                    //console.log(result.ricette[0]._id, result.ricette[2]._id,  result.ricette[3]._id);
                     document.getElementById("TopNationIngredient").innerHTML = result.ricette[0]._id;
                     document.getElementById("TopNationIngredientDescr").innerHTML = "È il paese che utilizza maggiormente \""+$("#searchBar").val() +"\" nella sua cucina."
 
@@ -176,23 +177,50 @@
 
 
   <!-- cambio pagina -->
-  <nav aria-label="Page navigation example" >
-    <ul class="pagination">
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+ 
+<div id="pagination" hidden></div>
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/simplePagination.min.css">
+<script>
+    //$(".wrapper .item").slice(4).hide();
+    $('#pagination').pagination({
+
+        // Total number of items present
+        // in wrapper class
+        pages : 100,
+        displayedPages : 10,
+        edges : 1,  
+        // Items allowed on a single page
+        itemsOnPage: 4,
+        cssStyle: 'compact-theme', 
+        onPageClick: function (pageNuber) {
+                                            console.log("click su " , pageNuber)
+                                            $.ajax({
+                                                    url: '/findRecipeByIngredient',
+                                                    type: 'POST',
+                                                    cache: false,
+                                                    dataType: 'json',
+                                                    data: { ingredient: $("#searchBar").val() },
+                                                    success: function (result) {
+                                                                                  //console.log(result.ricette);
+                                                                                  var tmp = $("#pageCorr").val();
+                                                                                  var elements = document.getElementsByClassName("TitleRecipe");
+                                                                                  var elementsD = document.getElementsByClassName("RecipeContent");
+                                                                                  var k = (parseInt(pageNuber) -1 ) * 8; 
+                                                                                  for(let i = 0; i < 8; i = i+1 , k+=1 )
+                                                                                  {
+                                                                                    //console.log(elements[i]);
+                                                                                    elements[i].innerHTML = result.ricette[k].name;
+                                                                                  }
+
+                                                                                }
+                                                })
+        }
+        , onInit : function (pageNuber){ console.log("ho caricato la paginazione : " , pageNuber) }
+    });
+</script>
 
 
 </div>
