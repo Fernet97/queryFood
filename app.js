@@ -103,6 +103,23 @@ app.post('/findTopCuisineByIngredient', (req, res) => {
    );
 })
 
+
+app.post('/findTopCategoryByCuisine', (req, res) => {
+  var nation = req.body.nation;
+  let query = queriesModel.findTopCategoryByCuisine(nation);
+  query.then(
+     (list) => {
+       console.log(list);
+       var response = {
+         ricette : list,
+     }
+     res.end(JSON.stringify(response));
+
+     },
+   (err) => {console.log(err)}
+   );
+})
+
 //****************************
 
 

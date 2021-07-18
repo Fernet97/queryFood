@@ -190,9 +190,32 @@ function initialize()
                , error: function(result){
                     console.log(result);
                 }
-            })
+            });
 
 
+            $.ajax({
+                  url: '/findTopCategoryByCuisine',
+                  type: 'POST',
+                  cache: false,
+                  dataType: 'json',
+                  data: { nation:  str},
+                  success: function (result) {
+                       if(result.status == 200){
+                          console.log("OK");
+                       }
+                       console.log("top categorie", result.ricette[0]._id, result.ricette[2]._id,  result.ricette[3]._id);
+                       document.getElementById("topCategoryXNation").innerHTML = "Categorie di ingredienti più usati nella "+ infoWindow_array[country_array.indexOf(str)];
+                       var itemCategory = document.getElementsByClassName("itemCateogory");
+                       for(let i = 0; i < 3; i = i + 1){
+                           if(i == 0) itemCategory[i].innerHTML = i+1 +". "+ result.ricette[i]._id + " 🏆";
+                           else itemCategory[i].innerHTML = i+1 +". "+ result.ricette[i]._id;
+                       }
+
+                   }
+                  , error: function(result){
+                       console.log(result);
+                   }
+               });
       }
 
     }

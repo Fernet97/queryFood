@@ -178,4 +178,4 @@ return query;
 
 
 
-module.exports = {findRecipeByIngredient, findRecipeByNation, findTopCuisineByIngredient};
+module.exports = {findRecipeByIngredient, findRecipeByNation, findTopCuisineByIngredient, findTopCategoryByCuisine};
