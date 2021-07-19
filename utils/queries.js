@@ -48,8 +48,8 @@ var dishfloadModel =  mongoose.model('dishfload', dishfload)
 
 /********* QUERY CERCA PIATTO PER INGREDIENTE ************/
 pattern = "salt";
-var findRecipeByIngredient = function(ingredient){
-  var query = dishfloadModel.find({"ingredients.ingredient_name": {"$regex": ingredient,"$options":"i"}});
+var findRecipeByIngredient = function(ingredient,from,to){
+  var query = dishfloadModel.find({"ingredients.ingredient_name": {"$regex": ingredient,"$options":"i"}}).skip(from).limit(to);
   return query;
 }
 
@@ -170,8 +170,19 @@ var findAllIngredients = function(){
 
  var query = dishfloadModel.aggregate([
    {$unwind: "$ingredients"},
-   {$group: {_id: "$ingredients.ingredient_name", total: { $sum: 1}}},
-   {$sort:{total:-1}}
+   {$group: {_id: "$ingredients.ingredient_name"}},
+]);
+return query;
+}
+
+
+
+/********* QUERY CONTA NUMERO DI PIATTI PER SINGOLA NAZIONE ************/
+var countRecipeByNation = function(nation){
+	
+ var query = dishfloadModel.aggregate([
+   {$match: { Cuisine:nation}},
+   {$group: {_id: "$Cuisine", total: { $sum: 1}}},
 ]);
 return query;
 }
