@@ -54,7 +54,10 @@ var queriesModel = require('./utils/queries');
 
 app.post('/findRecipeByIngredient', (req, res) => {
   var ingredient = req.body.ingredient;
-  let query = queriesModel.findRecipeByIngredient(ingredient);
+  var from = Number(req.body.from)
+  var to = Number(req.body.to)
+  console.log("from : " , from , "   to: " , to )
+  let query = queriesModel.findRecipeByIngredient(ingredient , from, to);
   query.then(
      (list) => {
        // console.log(list[0]);

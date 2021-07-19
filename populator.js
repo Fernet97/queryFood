@@ -229,11 +229,11 @@ while (ricetta_corrente = CSVrecipe.next())
         // andiamo a controllare che la categoria è presente ( ci sono alcuni ingredienti a cui manca la categoria ( la ricerca binaria restituisce -1 se non trova la categoria ) )
         if(indice != -1)
         {
-            ingrediedients_nameANDcategory.push({ingredient_name: ingrediente_corrente_array[1].toString('utf-8') , categoria:lista_categorie[indice][3].toString('utf-8') })
+            ingrediedients_nameANDcategory.push({ingredient_name: ingrediente_corrente_array[1].toString('utf-8') , categoria:lista_categorie[indice][3].toString('utf-8') , alias_ingredient :ingrediente_corrente_array[2].toString('utf-8').trim() })
         }
         else
         {
-            ingrediedients_nameANDcategory.push({ingredient_name: ingrediente_corrente_array[1].toString('utf-8') , categoria: "NULL" })
+            ingrediedients_nameANDcategory.push({ingredient_name: ingrediente_corrente_array[1].toString('utf-8') })
         }
 
         //avanziaomo al prossimo ingrediente presente nel file .csv

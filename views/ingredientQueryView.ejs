@@ -1,4 +1,4 @@
-<div class="container-fluid" style="margin-top: 40px;
+<div id="tmp" class="container-fluid" style="margin-top: 40px;
  display: flex; flex-direction: column;
  align-items: center;">
   <div style="font-size: 20px; text-align: center; margin: 10px;">
@@ -11,6 +11,7 @@
     <button class="btn btn-outline-success" style = "background-color: #21BF73; color: white" id="enter">Search</button>
   </div>
 
+  <!-- bisognerebbe inserire gli item dinamicamente con appendChild -->
   <script type="text/javascript">
       $('#enter').click(function(){
        $.ajax({
@@ -20,15 +21,66 @@
              dataType: 'json',
              data: { ingredient:  $("#searchBar").val()},
              success: function (result) {
-                  if(result.status == 200){
-                     console.log("OK");
-                  }
-                  //console.log(result.ricette);
-                  if(result.ricette.length > 0){
+                  console.log(result.ricette);
+                  if(result.ricette.length > 0)
+                  {
                      $('#containerdishInListItem').removeAttr('hidden');
                      $('#PaesePiuAbuso').removeAttr('hidden');
                      $('#resultQuery3').removeAttr('hidden');
-                     $('#pagination').removeAttr('hidden');
+                     let tmp = document.createElement('div')
+                     tmp.id = "pagination"
+                     console.log(tmp, document.getElementById("tmp"));
+                     document.getElementById("tmp").appendChild(tmp) 
+                     //$('#pagination').removeAttr('hidden');
+                     //$('#pagination').pagination('selectPage', 1);
+                     $('#pagination').pagination({
+                                                  // Total number of items present
+                                                  // in wrapper class
+                                                  
+                                                  items : result.ricette.length,
+                                                  itemsOnPage: 8,
+                                                  displayedPages : 10,
+                                                  edges : 1,  
+                                                  // Items allowed on a single page
+                                                  
+                                                  cssStyle: 'compact-theme', 
+                                                  onPageClick: function (pageNuber) {
+                                                                                      var k = (parseInt(pageNuber) - 1 ) * 8; 
+                                                                                      console.log("click su " , pageNuber)
+                                                                                      $.ajax({
+                                                                                              url: '/findRecipeByIngredient',
+                                                                                              type: 'POST',
+                                                                                              cache: false,
+                                                                                              dataType: 'json',
+                                                                                              data: { ingredient: $("#searchBar").val() , from: k, to: 8 },
+                                                                                              success: function (result) {
+                                                                                                                            console.log(result);
+                                                                                                                            var tmp = $("#pageCorr").val();
+                                                                                                                            var elements = document.getElementsByClassName("TitleRecipe");
+                                                                                                                            var elementsD = document.getElementsByClassName("RecipeContent");
+                                                                                                                            var item = document.getElementsByClassName("piattoinListItem");
+                                                                                                                            
+                                                                                                                            let i = 0
+                                                                                                                            for( i = 0; i < result.ricette.length; i = i+1 , k+=1 )
+                                                                                                                            {
+                                                                                                                              //console.log(elements[i]);
+                                                                                                                              elements[i].innerHTML = result.ricette[i].name;
+                                                                                                                              item[i].style.display = 'flex'
+
+                                                                                                                            }
+                                                                                                                            while(i < item.length)
+                                                                                                                            {
+                                                                                                                              
+                                                                                                                              item[i].style.display = 'none';
+                                                                                                                              i+= 1;
+                                                                                                                            }
+
+                                                                                                                          } , error : function(result){ console.log("errore " , result)}
+                                                                                          })
+                                                  }
+                                                  , onInit : function (pageNuber){ console.log("ho caricato la paginazione : " , pageNuber) }
+                                                  });
+
                      document.getElementById("resultQuery3").innerHTML =  "Trovate " + result.ricette.length + " ricette con "+$("#searchBar").val();
                   }
                   else{
@@ -178,48 +230,13 @@
 
   <!-- cambio pagina -->
  
-<div id="pagination" hidden></div>
+<!-- <div id="pagination"></div> -->
   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/simplePagination.min.css">
 <script>
     //$(".wrapper .item").slice(4).hide();
-    $('#pagination').pagination({
-
-        // Total number of items present
-        // in wrapper class
-        pages : 100,
-        displayedPages : 10,
-        edges : 1,  
-        // Items allowed on a single page
-        itemsOnPage: 4,
-        cssStyle: 'compact-theme', 
-        onPageClick: function (pageNuber) {
-                                            console.log("click su " , pageNuber)
-                                            $.ajax({
-                                                    url: '/findRecipeByIngredient',
-                                                    type: 'POST',
-                                                    cache: false,
-                                                    dataType: 'json',
-                                                    data: { ingredient: $("#searchBar").val() },
-                                                    success: function (result) {
-                                                                                  //console.log(result.ricette);
-                                                                                  var tmp = $("#pageCorr").val();
-                                                                                  var elements = document.getElementsByClassName("TitleRecipe");
-                                                                                  var elementsD = document.getElementsByClassName("RecipeContent");
-                                                                                  var k = (parseInt(pageNuber) -1 ) * 8; 
-                                                                                  for(let i = 0; i < 8; i = i+1 , k+=1 )
-                                                                                  {
-                                                                                    //console.log(elements[i]);
-                                                                                    elements[i].innerHTML = result.ricette[k].name;
-                                                                                  }
-
-                                                                                }
-                                                })
-        }
-        , onInit : function (pageNuber){ console.log("ho caricato la paginazione : " , pageNuber) }
-    });
 </script>
 
 
