@@ -171,7 +171,7 @@ var findAllIngredients = function(){
 
  var query = dishfloadModel.aggregate([
    {$unwind: "$ingredients"},
-   {$group: {_id: "$ingredients.ingredient_name"}},
+   {$group: {_id: "$ingredients.alias_ingredient"}},
 ]);
 return query;
 }
