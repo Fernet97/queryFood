@@ -129,6 +129,7 @@ function initialize()
       {
         console.log("ho fatto click su ", str)
         //AJAX SU QUERY PER NAZIONALITA'
+        let numberItemsInPage = 4
          $.ajax({
                url: '/findRecipeByNation',
                type: 'POST',
@@ -136,16 +137,72 @@ function initialize()
                dataType: 'json',
                data: { nation:  str},
                success: function (result) {
-                    if(result.status == 200){
-                       console.log("OK");
-                    }
-
                     console.log(result.ricette);
 
-                      if(result.ricette.length > 0){
-                         $('#NationRecipeView').removeAttr('hidden');
-                         document.getElementById("discoverMap").innerHTML =  "Trovate " + result.ricette.length + " ricette della "+infoWindow_array[country_array.indexOf(str)];
-                         document.getElementById("nomeCucina").innerHTML =  infoWindow_array[country_array.indexOf(str)] + " 🍽️";
+                      if(result.ricette.length > 0)
+                      {
+                        $('#NationRecipeView').removeAttr('hidden');
+                        document.getElementById("discoverMap").innerHTML =  "Trovate " + result.ricette.length + " ricette della "+infoWindow_array[country_array.indexOf(str)];
+                        document.getElementById("nomeCucina").innerHTML =  infoWindow_array[country_array.indexOf(str)] + " 🍽️";
+                        let tmp = document.createElement('div')
+                        tmp.id = "paginationMapViewer"
+                        console.log(tmp, document.getElementById("tmp"));
+                        document.getElementById("queryRecipeByNationConteiner").appendChild(tmp) 
+                        $('#paginationMapViewer').pagination({
+                        // Total number of items present
+                        // in wrapper class
+                        
+                        items : result.ricette.length,
+                        itemsOnPage: 4,
+                        displayedPages : 10,
+                        edges : 1,  
+                        // Items allowed on a single page
+                        
+                        cssStyle: 'compact-theme', 
+                        onPageClick: function (pageNuber) {
+                                                            var k = (parseInt(pageNuber) - 1 ) * numberItemsInPage; 
+                                                            console.log("click su " , pageNuber)
+                                                            $.ajax({
+                                                                    url: '/findRecipeByNation',
+                                                                    type: 'POST',
+                                                                    cache: false,
+                                                                    dataType: 'json',
+                                                                    data: { nation : str, from: k, to: numberItemsInPage },
+                                                                    success: function (result) {
+                                                                                                  console.log(result);
+                                                                                                  
+                                                                                                  var elements = document.getElementsByClassName("TitleRecipeNation");
+                                                                                                  var elementsD = document.getElementsByClassName("RecipeContentNation");
+                                                                                                  var item = document.getElementsByClassName("piattoItem");
+                                                                                                  
+                                                                                                  let i = 0
+                                                                                                  for( i = 0; i < result.ricette.length; i = i+1 , k+=1 )
+                                                                                                  {
+                                                                                                    //console.log(elements[i]);
+                                                                                                    elements[i].innerHTML = result.ricette[i].name;
+                                                                                                    let strtmp = ""
+                                                                                                    for(let j = 0; j < result.ricette[i].ingredients.length; j++)
+                                                                                                    {
+                                                                                                      strtmp+= result.ricette[i].ingredients[j].ingredient_name.toString()
+                                                                                                    }
+
+                                                                                                    //elementsD[i].innerHTML = result.ricette[i].ingredients[0].ingredient_name.toString();
+                                                                                                    elementsD[i].innerHTML = strtmp
+                                                                                                    item[i].style.display = 'flex'
+
+                                                                                                  }
+                                                                                                  while(i < item.length)
+                                                                                                  {
+                                                                                                    
+                                                                                                    item[i].style.display = 'none';
+                                                                                                    i+= 1;
+                                                                                                  }
+
+                                                                                                } , error : function(result){ console.log("errore " , result)}
+                                                                })
+                        }
+                        , onInit : function (pageNuber){ console.log("ho caricato la paginazione : " , pageNuber) }
+                        });
 
                       }
                       else{
@@ -156,7 +213,7 @@ function initialize()
                       var elementsDescriptions = document.getElementsByClassName("RecipeContentNation");
                       var elementsImage = document.getElementsByClassName("imgInItem");
 
-                      for(let i = 0; i < 4; i = i+ 1){
+                      for(let i = 0; i < result.ricette.length; i = i+ 1){
                         if(elementsTitles[i]){
                           elementsTitles[i].innerHTML = result.ricette[i].name;
                               //API per immagini ricetta

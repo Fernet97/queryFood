@@ -73,9 +73,10 @@ var findRecipeByCategory = function(cat){
 
 /********* QUERY CERCA PIATTO PER NAZIONI ************/
 
-var findRecipeByNation = function(nation){
+var findRecipeByNation = function(nation , from , to ){
 
-	var query = dishfloadModel.find({Cuisine: nation});
+	//var query = dishfloadModel.find({Cuisine: nation});
+  var query = dishfloadModel.find({"Cuisine": {"$regex": nation,"$options":"i"}}).skip(from).limit(to);
 	return query;
 
 }

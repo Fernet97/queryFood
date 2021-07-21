@@ -74,7 +74,9 @@ app.post('/findRecipeByIngredient', (req, res) => {
 
 app.post('/findRecipeByNation', (req, res) => {
   var nation = req.body.nation;
-  let query = queriesModel.findRecipeByNation(nation);
+  var from = Number(req.body.from)
+  var to = Number(req.body.to)
+  let query = queriesModel.findRecipeByNation(nation , from, to);
   query.then(
      (list) => {
        // console.log(list[0]);
