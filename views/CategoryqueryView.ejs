@@ -4,7 +4,7 @@
   <div style="font-size: 20px; text-align: center">
     ~ Cerca piatti selezionando una categoria di ingredienti ~
   </div>
-
+ <!--
   <div class = "listIngredient">
     <script>
       function selected(){
@@ -21,9 +21,165 @@
     <img onclick="selected()" src="ingredientsImg/alcolici.jpg" class = "imgIngredient" alt="alcolici">
     <img onclick="selected()" src="ingredientsImg/latticini.jpg" class = "imgIngredient" alt="latticini">
   </div>
+-->
+<div class="top-content">
+  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+           <script>
 
 
-    <div style = "display: flex; justify-content: space-around; flex-wrap: wrap; flex-direction: row; ">
+
+             var categoryState={
+               Spice: false,
+               Bakery:false,
+               Plant:false,
+               Meat:false,
+               Fruit:false,
+               Vegetable:false,
+               Beverage:false,
+               "Nuts & Seed":false,
+               Fish:false,
+               Legume:false,
+               Dairy:false,
+               Herb:false,
+               Cereal:false,
+               Seafood:false,
+               "Essential Oil" :false,
+               Fungus:false,
+               Additive:false,
+               "Beverage Alcoholic":false,
+               Flower:false,
+               Maize:false,
+            };
+
+             
+
+            function selected(e){
+
+              var element = document.getElementById(e.target.id);
+
+              if(categoryState[e.target.alt]==false)
+                element.classList.add("selected");
+              else element.classList.remove("selected");
+           
+              var categorySelected = [];
+           
+              if(categoryState[e.target.alt])
+                 categoryState[e.target.alt] = false;
+              else categoryState[e.target.alt] = true;
+              
+              for(var k in categoryState)
+                 if(categoryState[k]){
+                  
+                    categorySelected.push(k)
+                 }
+
+                
+              $.ajax({
+                  url: '/findRecipeByCategory',
+                  type: 'POST',
+                  cache: false,
+                  dataType: 'json',
+                  data: { categories:  categorySelected.toString()},
+                  success: function (result) {
+                       if(result.status == 200){
+                          console.log("OK");
+                       }
+                  
+                       var elementsTitles = document.getElementsByClassName("TitleRecipeCat");
+                       var elementsDescriptions = document.getElementsByClassName("RecipeContentCat");
+                       var elementsImage = document.getElementsByClassName("imgInItem4");
+
+                       for(let i = 0; i < 8; i = i+ 1){
+                           if(elementsTitles[i])
+                              elementsTitles[i].innerHTML = result.ricette[i].name;
+                              //console.log(result.ricette[i].name);
+                              //API per immagini ricetta
+                              const settings = {
+                                  "async": true,
+                                  "crossDomain": true,
+                                  "url": "https://bing-image-search1.p.rapidapi.com/images/search?q="+result.ricette[i].name,
+                                  "method": "GET",
+                                  "headers": {
+                                  "x-rapidapi-key": "ec93995b4dmsh2d2c7afa5870d4cp1a18b5jsn2347d0d21baeMMMH",
+                                  "x-rapidapi-host": "bing-image-search1.p.rapidapi.com"
+                              }
+                          };
+
+                         $.ajax(settings).done(function (response) {
+                           //console.log(response.value[0].contentUrl);
+                          elementsImage[i].src = response.value[0].contentUrl;
+                         });
+
+                          elementsDescriptions[i].innerHTML = "";
+
+                          for(let j = 0; j < result.ricette[i].ingredients.length; j = j+ 1)
+                               elementsDescriptions[i].innerHTML  = elementsDescriptions[i].innerHTML + " · " +
+                                result.ricette[i].ingredients[j].ingredient_name;
+                       }
+
+                   }
+                  , error: function(result){
+                       console.log(result);
+                   }
+               });
+            }
+
+            </script>
+             <script>
+
+
+             </script>
+
+        <div class = "listIngredient">
+        <img onclick="selected(event)" src="ingredientsImg/spezie.jpg" class = "imgIngredient" alt="Spice" id="id1" >
+        <img onclick="selected(event)" src="ingredientsImg/cereali.jpg" class = "imgIngredient" alt="Cereal" id="id2">
+        <img onclick="selected(event)" src="ingredientsImg/fruit.jpg" class = "imgIngredient"  alt="Fruit" id="id3">
+        <img onclick="selected(event)" src="ingredientsImg/vegetables.jpg" class = "imgIngredient" alt="Vegetables" id="id4">
+        <img onclick="selected(event)" src="ingredientsImg/meat.jpg" class = "imgIngredient" alt="Meat" id="id5">
+        <img onclick="selected(event)" src="ingredientsImg/fish.jpg" class = "imgIngredient" alt="Fish" id="id6">
+        <img onclick="selected(event)" src="ingredientsImg/bakery.jpg" class = "imgIngredient" alt="Bakery" id="id7">
+      </div>
+      </div>
+      <div class="carousel-item">
+        <div class = "listIngredient">
+        <img onclick="selected(event)" src="ingredientsImg/alcolici.jpg" class = "imgIngredient" alt="Beverage Alcoholic" id="id8">
+        <img onclick="selected(event)" src="ingredientsImg/latticini.jpg" class = "imgIngredient" alt="Dairy" id="id9">
+        <img onclick="selected(event)" src="ingredientsImg/additive.jpg" class = "imgIngredient"  alt="Additive" id="id10">
+        <img onclick="selected(event)" src="ingredientsImg/fungus.jpg" class = "imgIngredient" alt="Fungus" id="id11">
+        <img onclick="selected(event)" src="ingredientsImg/legume.jpg" class = "imgIngredient" alt="Legume" id="id12">
+        <img onclick="selected(event)" src="ingredientsImg/maize.jpg" class = "imgIngredient" alt="Maize" id="id13">
+        <img onclick="selected(event)" src="ingredientsImg/seafood.jpg" class = "imgIngredient" alt="Seafood" id="id14">
+      </div>        
+      </div>
+      <div class="carousel-item">
+        <div class = "listIngredient">
+          <img onclick="selected(event)" src="ingredientsImg/beverage.jpg" class = "imgIngredient" alt="Beverage" id="id15">
+          <img onclick="selected(event)" src="ingredientsImg/nutsAndSeed.jpg" class = "imgIngredient" alt="Nuts & Seed" id="id16">
+          <img onclick="selected(event)" src="ingredientsImg/essentialOil.jpg" class = "imgIngredient"  alt="Essential Oil" id="id17">
+          <img onclick="selected(event)" src="ingredientsImg/flowers.jpg" class = "imgIngredient" alt="Flower" id="id18">
+          <img onclick="selected(event)" src="ingredientsImg/herb.jpg" class = "imgIngredient" alt="Herb" id="id19">
+          <img onclick="selected(event)" src="ingredientsImg/plant.jpg" class = "imgIngredient" alt="Plant" id="id20">
+        </div>  
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+<div style="font-size: 20px; text-align: center; margin: 10px;" id= "resultQueryCat" hidden >
+  Risultati trovati: --
+</div>
+
+    <div style = "display: flex; justify-content: space-around; flex-wrap: wrap; flex-direction: row; " id = "containercategoryitem">
       <%- include('items/piattoCategoryItem');-%>
       <%- include('items/piattoCategoryItem');-%>
       <%- include('items/piattoCategoryItem');-%>
