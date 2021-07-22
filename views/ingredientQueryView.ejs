@@ -73,6 +73,10 @@
                                                                                                                               //console.log(elements[i]);
                                                                                                                               elements[i].innerHTML = result.ricette[i].name;
                                                                                                                               item[i].style.display = 'flex'
+																															  elementsD[i].innerHTML = "";
+                                                                                                                              for(let j = 0; j < result.ricette[i].ingredients.length; j = j+ 1)                                                                                                                                  
+                                                                                                                                  elementsD[i].innerHTML  = elementsD[i].innerHTML + 
+																																  " · " + result.ricette[i].ingredients[j].alias_ingredient;
 
                                                                                                                             }
                                                                                                                             while(i < item.length)
@@ -123,7 +127,9 @@
                          });
                     }
 
-                    elementsDescriptions[i].innerHTML = $("#searchBar").val();
+                    for(let j = 0; j < result.ricette[i].ingredients.length; j = j+ 1)
+                        elementsDescriptions[i].innerHTML  = elementsDescriptions[i].innerHTML +
+						" · " + result.ricette[i].ingredients[j].alias_ingredient;
                   }
                   while(i < item.length)
                   {

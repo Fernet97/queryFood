@@ -49,7 +49,7 @@ var dishfloadModel =  mongoose.model('dishfload', dishfload)
 /********* QUERY CERCA PIATTO PER INGREDIENTE ************/
 pattern = "salt";
 var findRecipeByIngredient = function(ingredient,from,to){
-  var query = dishfloadModel.find({"ingredients.ingredient_name": {"$regex": ingredient,"$options":"i"}}).skip(from).limit(to);
+  var query = dishfloadModel.find({"ingredients.alias_ingredient": {"$regex": ingredient,"$options":"i"}}).skip(from).limit(to);
   return query;
 }
 
