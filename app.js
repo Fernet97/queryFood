@@ -45,11 +45,14 @@ app.get('/', (req, res) => {
 })
 
 
+
+
 //****** AJAX *************
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 var queriesModel = require('./utils/queries');
+
 
 
 app.post('/findRecipeByIngredient', (req, res) => {
@@ -92,14 +95,36 @@ app.post('/findRecipeByNation', (req, res) => {
 
 
 app.post('/findTopCuisineByIngredient', (req, res) => {
+
   var ingredient = req.body.ingredient;
   console.log("Trovo chi abusa "+ ingredient+ " ...")
   let query = queriesModel.findTopCuisineByIngredient(ingredient);
   query.then(
      (list) => {
-       console.log(list);
+       //Dizionario con numeri piatti per nazione
+       const NationNumberRecipe = {
+           'Italy' : 7504,'Greece' :  934,'France': 2703,'Misc.: Dutch' : 40,
+           'South America' : 310,'Spain' : 816,'Eastern Europe' : 565,
+           'Misc.: Central America' : 14, 'Africa' : 1112,'Australia & NZ' : 494,
+           'Canada' : 1112,  'USA' : 16118,  'China' : 941,  'Misc.: Portugal' : 138,
+           'South East Asia': 611,'Thailand' : 667,'British Isles' : 1075,
+           'Scandinavia' : 404,'Indian Subcontinent' : 4058,'Middle East' : 993,
+           'Japan' : 580 ,  'Korea' : 301,  'Caribbean' : 1103,
+           'Mexico' : 3138,  'Misc.: Belgian' : 15,  'DACH Countries' : 487,
+       };
+       var classificaAbuse = {};
+
+       list.forEach(item => {
+            if(NationNumberRecipe[item._id]){
+              console.log(item._id, (item.total/NationNumberRecipe[item._id]*100).toFixed(1) + "%");
+              let val = (item.total/NationNumberRecipe[item._id]*100);
+              classificaAbuse[item._id] = val;
+            }
+       });
+
+
        var response = {
-         ricette : list,
+         classifica : classificaAbuse,
      }
      res.end(JSON.stringify(response));
 
@@ -109,9 +134,9 @@ app.post('/findTopCuisineByIngredient', (req, res) => {
 })
 
 
-app.post('/findTopCategoryByCuisine', (req, res) => {
+app.post('/findTopIngredientByCuisine', (req, res) => {
   var nation = req.body.nation;
-  let query = queriesModel.findTopCategoryByCuisine(nation);
+  let query = queriesModel.findTopIngredientByCuisine(nation);
   query.then(
      (list) => {
        console.log(list);

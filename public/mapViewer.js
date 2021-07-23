@@ -147,20 +147,20 @@ function initialize()
                         let tmp = document.createElement('div')
                         tmp.id = "paginationMapViewer"
                         console.log(tmp, document.getElementById("tmp"));
-                        document.getElementById("queryRecipeByNationConteiner").appendChild(tmp) 
+                        document.getElementById("queryRecipeByNationConteiner").appendChild(tmp)
                         $('#paginationMapViewer').pagination({
                         // Total number of items present
                         // in wrapper class
-                        
+
                         items : result.ricette.length,
                         itemsOnPage: 4,
                         displayedPages : 10,
-                        edges : 1,  
+                        edges : 1,
                         // Items allowed on a single page
-                        
-                        cssStyle: 'compact-theme', 
+
+                        cssStyle: 'compact-theme',
                         onPageClick: function (pageNuber) {
-                                                            var k = (parseInt(pageNuber) - 1 ) * numberItemsInPage; 
+                                                            var k = (parseInt(pageNuber) - 1 ) * numberItemsInPage;
                                                             console.log("click su " , pageNuber)
                                                             $.ajax({
                                                                     url: '/findRecipeByNation',
@@ -170,11 +170,11 @@ function initialize()
                                                                     data: { nation : str, from: k, to: numberItemsInPage },
                                                                     success: function (result) {
                                                                                                   console.log(result);
-                                                                                                  
+
                                                                                                   var elements = document.getElementsByClassName("TitleRecipeNation");
                                                                                                   var elementsD = document.getElementsByClassName("RecipeContentNation");
                                                                                                   var item = document.getElementsByClassName("piattoItem");
-                                                                                                  
+
                                                                                                   let i = 0
                                                                                                   for( i = 0; i < result.ricette.length; i = i+1 , k+=1 )
                                                                                                   {
@@ -193,7 +193,7 @@ function initialize()
                                                                                                   }
                                                                                                   while(i < item.length)
                                                                                                   {
-                                                                                                    
+
                                                                                                     item[i].style.display = 'none';
                                                                                                     i+= 1;
                                                                                                   }
@@ -251,7 +251,7 @@ function initialize()
 
 
             $.ajax({
-                  url: '/findTopCategoryByCuisine',
+                  url: '/findTopIngredientByCuisine',
                   type: 'POST',
                   cache: false,
                   dataType: 'json',
@@ -261,7 +261,7 @@ function initialize()
                           console.log("OK");
                        }
                        console.log("top categorie", result.ricette[0]._id, result.ricette[2]._id,  result.ricette[3]._id);
-                       document.getElementById("topCategoryXNation").innerHTML = "Categorie di ingredienti più usati nella "+ infoWindow_array[country_array.indexOf(str)];
+                       document.getElementById("topCategoryXNation").innerHTML = "Ingredienti più usati nella "+ infoWindow_array[country_array.indexOf(str)];
                        var itemCategory = document.getElementsByClassName("itemCateogory");
                        for(let i = 0; i < 3; i = i + 1){
                            if(i == 0) itemCategory[i].innerHTML = i+1 +". "+ result.ricette[i]._id + " 🏆";

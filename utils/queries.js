@@ -96,8 +96,17 @@ return query;
 
 }
 
+/********* QUERY CERCA TOP INGREDIENTI PER NAZIONI ************/
+var findTopIngredientByCuisine = function(cuisine){
 
+ var query = dishfloadModel.aggregate([
+   {$match: { Cuisine: cuisine}},
+   {$unwind: "$ingredients"},
+   {$group: {_id: "$ingredients.alias_ingredient", total: { $sum: 1}}}
+]);
+return query;
 
+}
 
 /********* QUERY CERCA TOP NAZIONI PER CATEGORIA ************/
 var findTopCuisineByCategory = function(category){
@@ -180,7 +189,7 @@ return query;
 
 /********* QUERY CONTA NUMERO DI PIATTI PER SINGOLA NAZIONE ************/
 var countRecipeByNation = function(nation){
-	
+
  var query = dishfloadModel.aggregate([
    {$match: { Cuisine:nation}},
    {$group: {_id: "$Cuisine", total: { $sum: 1}}},
@@ -190,4 +199,4 @@ return query;
 
 
 
-module.exports = {findRecipeByIngredient, findRecipeByNation, findTopCuisineByIngredient, findTopCategoryByCuisine,findRecipeByCategory};
+module.exports = {findRecipeByIngredient, findRecipeByNation, findTopCuisineByIngredient, findTopIngredientByCuisine,findRecipeByCategory, countRecipeByNation};
