@@ -60,10 +60,12 @@ var findRecipeByIngredient = function(ingredient,from,to){
 
 /********* QUERY CERCA PIATTO PER PIU CATEGORIE DI INGREDIENTI ************/
 var cat = ['Fruit','Spice'];
-var findRecipeByCategory = function(cat){
-
-	var query = dishfloadModel.find({"ingredients.categoria":{$all:cat}});
-	return query
+var findRecipeByCategory = function(cat , from , to ){
+ //cat = ["Spice", "Meat"]
+ cat = JSON.parse(cat)
+ console.log(cat)
+ var query = dishfloadModel.find({"ingredients.categoria":{$all:cat}}).skip(from).limit(to);
+ return query
 
 }
 
@@ -102,7 +104,8 @@ var findTopIngredientByCuisine = function(cuisine){
  var query = dishfloadModel.aggregate([
    {$match: { Cuisine: cuisine}},
    {$unwind: "$ingredients"},
-   {$group: {_id: "$ingredients.alias_ingredient", total: { $sum: 1}}}
+   {$group: {_id: "$ingredients.alias_ingredient", total: { $sum: 1}}},
+   {$sort:{total:-1}}
 ]);
 return query;
 

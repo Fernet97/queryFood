@@ -233,7 +233,7 @@ while (ricetta_corrente = CSVrecipe.next())
         }
         else
         {
-            ingrediedients_nameANDcategory.push({ingredient_name: ingrediente_corrente_array[1].toString('utf-8') })
+            ingrediedients_nameANDcategory.push({ingredient_name: ingrediente_corrente_array[1].toString('utf-8') , alias_ingredient :ingrediente_corrente_array[2].toString('utf-8').trim()})
         }
 
         //avanziaomo al prossimo ingrediente presente nel file .csv
