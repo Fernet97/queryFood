@@ -125,6 +125,25 @@ app.post('/findTopCategoryByCuisine', (req, res) => {
    );
 })
 
+
+app.post('/findRecipeByCategory', (req, res) => {
+  var categories = req.body.categories;
+  var from = Number(req.body.from)
+  var to = Number(req.body.to)
+  let query = queriesModel.findRecipeByCategory(categories , from , to);
+  query.then(
+     (list) => {
+       console.log(list);
+       var response = {
+         ricette : list,
+     }
+     res.end(JSON.stringify(response));
+
+     },
+   (err) => {console.log(err)}
+   );
+})
+
 //****************************
 
 

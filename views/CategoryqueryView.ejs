@@ -22,7 +22,15 @@
     <img onclick="selected()" src="ingredientsImg/latticini.jpg" class = "imgIngredient" alt="latticini">
   </div>
 -->
-<div class="top-content">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/simplePagination.min.css">
+<script>
+    //$(".wrapper .item").slice(4).hide();
+</script>
+
+<div class="top-content" id="tmpCat">
   <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -75,23 +83,96 @@
                     categorySelected.push(k)
                  }
 
-                
+              console.log(categorySelected)
+              let numberItemsInPage = 8
               $.ajax({
                   url: '/findRecipeByCategory',
                   type: 'POST',
                   cache: false,
                   dataType: 'json',
-                  data: { categories:  categorySelected.toString()},
+                  data: { categories:  JSON.stringify(categorySelected)},
                   success: function (result) {
                        if(result.status == 200){
                           console.log("OK");
                        }
+
+                       if(result.ricette.length > 0)
+                       {
+                        
+                        let tmp = document.createElement('div')
+                        tmp.id = "paginationCategory"
+                        console.log(tmp, document.getElementById("tmp"));
+                        document.getElementById("tmpCat").appendChild(tmp) 
+                        $('#paginationCategory').pagination({
+                        // Total number of items present
+                        // in wrapper class
+                        
+                        items : result.ricette.length,
+                        itemsOnPage: numberItemsInPage,
+                        displayedPages : 10,
+                        edges : 1,  
+                        // Items allowed on a single page
+                        
+                        cssStyle: 'compact-theme', 
+                        onPageClick: function (pageNuber) {
+                                                            var k = (parseInt(pageNuber) - 1 ) * numberItemsInPage; 
+                                                            console.log("click su " , pageNuber)
+                                                            $.ajax({
+                                                                    url: '/findRecipeByCategory',
+                                                                    type: 'POST',
+                                                                    cache: false,
+                                                                    dataType: 'json',
+                                                                    data: { categories:  JSON.stringify(categorySelected) , from: k, to: numberItemsInPage },
+                                                                    success: function (result) {
+                                                                                                  console.log(result);
+                                                                                                  
+                                                                                                  var elements = document.getElementsByClassName("TitleRecipeCat");
+                                                                                                  var elementsD = document.getElementsByClassName("RecipeContentCat");
+                                                                                                  var item = document.getElementsByClassName("piattoCategoryItem");
+                                                                                                  
+                                                                                                  let i = 0
+                                                                                                  for( i = 0; i < result.ricette.length; i = i+1 , k+=1 )
+                                                                                                  {
+                                                                                                    //console.log(elements[i]);
+                                                                                                    elements[i].innerHTML = result.ricette[i].name;
+                                                                                                    let strtmp = ""
+                                                                                                    for(let j = 0; j < result.ricette[i].ingredients.length; j++)
+                                                                                                    {
+                                                                                                      strtmp+= result.ricette[i].ingredients[j].ingredient_name.toString()
+                                                                                                    }
+
+                                                                                                    //elementsD[i].innerHTML = result.ricette[i].ingredients[0].ingredient_name.toString();
+                                                                                                    elementsD[i].innerHTML = strtmp
+                                                                                                    item[i].style.display = 'flex'
+
+                                                                                                  }
+                                                                                                  while(i < item.length)
+                                                                                                  {
+                                                                                                    
+                                                                                                    item[i].style.display = 'none';
+                                                                                                    i+= 1;
+                                                                                                  }
+
+                                                                                                } , error : function(result){ console.log("errore " , result)}
+                                                                })
+                        }
+                        , onInit : function (pageNuber){ console.log("ho caricato la paginazione : " , pageNuber) }
+                        });
+
+                      }
+                      else
+                      {
+
+                        // da finire -> definire meglio layuot e hidden tag 
+
+                      }
                   
+                       console.log("------" , result)
                        var elementsTitles = document.getElementsByClassName("TitleRecipeCat");
                        var elementsDescriptions = document.getElementsByClassName("RecipeContentCat");
                        var elementsImage = document.getElementsByClassName("imgInItem4");
 
-                       for(let i = 0; i < 8; i = i+ 1){
+                       for(let i = 0; i < result.ricette.length ; i = i+ 1){
                            if(elementsTitles[i])
                               elementsTitles[i].innerHTML = result.ricette[i].name;
                               //console.log(result.ricette[i].name);
