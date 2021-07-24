@@ -1,0 +1,28 @@
+(15 Minuti)
+
+PIERLUIGI
+spiegazione del progetto in generale
+tecnologie utilizzate 
+Server Nodejs + connessione Mongoose
+sito da cui abbiamo preso il dataset -> prese 3 tabelle su 4
+
+{spiegazione dei dati ("recipe", "ingredient")}
+
+ANTONELLO
+fase di preprocessing ( acquisizione e memorizzazione )
+script di preprocessing
+	letture sequenziale da file
+	campi null, eliminazione campo url 
+	Integrazione DB ->matching ID
+		
+
+{funzionalità offerte dal sistema} 
+
+
+FABIANO
+memorizzazione dei dati ( come vengono memorizzati , indici ) 
+query 
+conclusioni ( obiettivi raggiunti e possibili future implementazioni ) 
+
+
+-- LIVE DEMO --
