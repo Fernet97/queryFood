@@ -137,7 +137,7 @@ function initialize()
                dataType: 'json',
                data: { nation:  str},
                success: function (result) {
-                    console.log(result.ricette);
+                    //console.log(result.ricette);
 
                       if(result.ricette.length > 0)
                       {
@@ -147,7 +147,7 @@ function initialize()
                         let tmp = document.createElement('div')
                         tmp.id = "paginationMapViewer"
                         console.log(tmp, document.getElementById("tmp"));
-                        document.getElementById("queryRecipeByNationConteiner").appendChild(tmp)
+                        document.getElementById("NationRecipeView").appendChild(tmp)
                         $('#paginationMapViewer').pagination({
                         // Total number of items present
                         // in wrapper class
