@@ -11,7 +11,7 @@
     <button class="btn btn-outline-success" style = "background-color: #21BF73; color: white" id="enterOrigin">Search</button>
   </div> -->
 
-  <div autocomplete="off" >
+  <div autocomplete="off">
     <div class="autocomplete" style="width:300px;">
       <input id="searchBar" type="text" name="myCountry" placeholder="Specifica un ingrediente">
     </div>
@@ -283,6 +283,7 @@
 
 
 <script>
+
   function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/
@@ -381,11 +382,9 @@
     });
   }
 
-  /*An array containing all the country names in the world:*/
-  var countries = ["lemon" , "tomato", "pepper"];
-
+  //console.log("<%=listaRicette%>");
   /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-  autocomplete(document.getElementById("searchBar") , countries);
+  autocomplete(document.getElementById("searchBar") , "<%=listaRicette%>".split(','));
   </script>
 
 

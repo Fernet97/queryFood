@@ -38,22 +38,32 @@ var connection = mongoose.connection;
 connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
-var arrayToInsert = [];
 
-app.get('/', (req, res) => {
-   res.render('home', {listaRicette: arrayToInsert})
-})
-
-
-
-
-//****** AJAX *************
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 var queriesModel = require('./utils/queries');
 
 
+
+var countries = ["salt" , "water", "onion"];
+
+app.get('/', (req, res) => {
+  let query = queriesModel.findAllIngredients();
+  query.then(
+     (list) => {
+       // console.log(list[0]);
+       let result = list.map(a => a._id);
+       //console.log(result);
+       res.render('home', {listaRicette: result})
+     },
+   (err) => {console.log(err)}
+   );
+})
+
+
+
+//****** AJAX *************
 
 app.post('/findRecipeByIngredient', (req, res) => {
   var ingredient = req.body.ingredient;

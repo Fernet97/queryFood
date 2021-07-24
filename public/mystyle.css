@@ -231,6 +231,13 @@ a.page-link{
 }
 
 
+
+.autocomplete-items{
+	overflow-y:auto;
+	max-height: 150px;
+}
+
+
 @media screen and (max-width: 800px) {
 
 
