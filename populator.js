@@ -49,8 +49,8 @@ const dishfload = Schema
     {
     _id : { type: Number},
     name: { type: String },
-    Cuisine : {type: String},
-    ingredients : {type : Object} ,
+    Cuisine : {type: String, index: true},
+    ingredients : {type : Object, index: true} ,
     }
 );
 
