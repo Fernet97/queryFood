@@ -63,7 +63,7 @@
 
             let stato = 0;
 
-             
+
 
             function selected(e){
 
@@ -72,9 +72,9 @@
               if(categoryState[e.target.alt]==false)
                 element.classList.add("selected");
               else element.classList.remove("selected");
-           
+
               var categorySelected = [];
-           
+
               if(categoryState[e.target.alt])
               {
                 categoryState[e.target.alt] = false;
@@ -86,10 +86,10 @@
                 stato += 1
 
               }
-              
+
               for(var k in categoryState)
                  if(categoryState[k]){
-                  
+
                     categorySelected.push(k)
                  }
 
@@ -100,7 +100,7 @@
                var elementsTitles = document.getElementsByClassName("piattoCategoryItem");
                             var elementsDescriptions = document.getElementsByClassName("RecipeContentCat");
                             var elementsImage = document.getElementsByClassName("imgInItem4");
-                            let j  
+                            let j
                             console.log(elementsTitles.length)
                             for( j = 0; j < elementsTitles.length ; j+= 1 )
                             {
@@ -108,7 +108,7 @@
                             }
 
 
-
+              document.getElementById("cagoriesnavbar").style.display = 'none'
               //$('#containercategoryitem').removeAttr('hidden');
               document.getElementById('containercategoryitem').style.display = 'flex'
               document.getElementById("cagoriesnotfound").style.display = 'none'
@@ -127,25 +127,25 @@
 
                        if(result.ricette.length > 0)
                        {
-                        
-                        
+
+
                         let tmp = document.createElement('div')
                         tmp.id = "paginationCategory"
                         console.log(tmp, document.getElementById("tmp"));
-                        document.getElementById("cagoriesnavbar").appendChild(tmp) 
+                        document.getElementById("cagoriesnavbar").appendChild(tmp)
                         $('#paginationCategory').pagination({
                         // Total number of items present
                         // in wrapper class
-                        
+
                         items : result.ricette.length,
                         itemsOnPage: numberItemsInPage,
                         displayedPages : 10,
-                        edges : 1,  
+                        edges : 1,
                         // Items allowed on a single page
-                        
-                        cssStyle: 'compact-theme', 
+
+                        cssStyle: 'compact-theme',
                         onPageClick: function (pageNuber) {
-                                                            var k = (parseInt(pageNuber) - 1 ) * numberItemsInPage; 
+                                                            var k = (parseInt(pageNuber) - 1 ) * numberItemsInPage;
                                                             console.log("click su " , pageNuber)
                                                             $.ajax({
                                                                     url: '/findRecipeByCategory',
@@ -155,11 +155,11 @@
                                                                     data: { categories:  JSON.stringify(categorySelected) , from: k, to: numberItemsInPage },
                                                                     success: function (result) {
                                                                                                   console.log(result);
-                                                                                                  
+
                                                                                                   var elements = document.getElementsByClassName("TitleRecipeCat");
                                                                                                   var elementsD = document.getElementsByClassName("RecipeContentCat");
                                                                                                   var item = document.getElementsByClassName("piattoCategoryItem");
-                                                                                                  
+
                                                                                                   let i = 0
                                                                                                   for( i = 0; i < result.ricette.length - 1; i = i+1 , k+=1 )
                                                                                                   {
@@ -168,9 +168,9 @@
                                                                                                     let strtmp = ""
                                                                                                     for(let j = 0; j < result.ricette[i].ingredients.length; j++)
                                                                                                     {
-                                                                                                      strtmp+= " · " + result.ricette[i].ingredients[j].ingredient_name.toString() 
+                                                                                                      strtmp+= " · " + result.ricette[i].ingredients[j].ingredient_name.toString()
                                                                                                     }
-                                                                                                    
+
 
 
 
@@ -181,7 +181,7 @@
                                                                                                   }
                                                                                                   while(i < item.length)
                                                                                                   {
-                                                                                                    
+
                                                                                                     item[i].style.display = 'none';
                                                                                                     i+= 1;
                                                                                                   }
@@ -192,6 +192,7 @@
                         , onInit : function (pageNuber){ console.log("ho caricato la paginazione : " , pageNuber) }
                         });
 
+                        document.getElementById("cagoriesnavbar").style.display = 'block'
                         document.getElementById('paginationCategory').style.display = 'block'
 
                       }
@@ -204,11 +205,11 @@
                             // //alert("nessuna ricetta trovata")
                             // let tmp = document.createElement('div')
                             // tmp.innerHTML ="ndfskjaskfjdaslkfjskaj"
-                           
+
                             // var elementsTitles = document.getElementsByClassName("piattoCategoryItem");
                             // var elementsDescriptions = document.getElementsByClassName("RecipeContentCat");
                             // var elementsImage = document.getElementsByClassName("imgInItem4");
-                            // let j  
+                            // let j
                             // console.log(elementsTitles.length)
                             // for( j = 0; j < elementsTitles.length ; j+= 1 )
                             // {
@@ -225,11 +226,11 @@
                                                       // //alert("nessuna ricetta trovata")
                             // let tmp = document.createElement('div')
                             // tmp.innerHTML ="ndfskjaskfjdaslkfjskaj"
-                           
+
                             // var elementsTitles = document.getElementsByClassName("piattoCategoryItem");
                             // var elementsDescriptions = document.getElementsByClassName("RecipeContentCat");
                             // var elementsImage = document.getElementsByClassName("imgInItem4");
-                            // let j  
+                            // let j
                             // console.log(elementsTitles.length)
                             // for( j = 0; j < elementsTitles.length ; j+= 1 )
                             // {
@@ -243,14 +244,14 @@
 
 
                         }
-                          
-                         
+
+
 
                       }
-                      
-                  
+
+
                        //console.log("------" , result)
-                       
+
                        var items = document.getElementsByClassName("piattoCategoryItem");
                        var elementsTitles = document.getElementsByClassName("TitleRecipeCat");
                        var elementsDescriptions = document.getElementsByClassName("RecipeContentCat");
@@ -317,7 +318,7 @@
         <img onclick="selected(event)" src="ingredientsImg/legume.jpg" class = "imgIngredient" alt="Legume" id="id12">
         <img onclick="selected(event)" src="ingredientsImg/maize.jpg" class = "imgIngredient" alt="Maize" id="id13">
         <img onclick="selected(event)" src="ingredientsImg/seafood.jpg" class = "imgIngredient" alt="Seafood" id="id14">
-      </div>        
+      </div>
       </div>
       <div class="carousel-item">
         <div class = "listIngredient">
@@ -327,7 +328,7 @@
           <img onclick="selected(event)" src="ingredientsImg/flowers.jpg" class = "imgIngredient" alt="Flower" id="id18">
           <img onclick="selected(event)" src="ingredientsImg/herb.jpg" class = "imgIngredient" alt="Herb" id="id19">
           <img onclick="selected(event)" src="ingredientsImg/plant.jpg" class = "imgIngredient" alt="Plant" id="id20">
-        </div>  
+        </div>
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -345,7 +346,7 @@
   Risultati trovati: --
 </div>
 
-    <div style = "display: none; justify-content: space-around; flex-wrap: wrap; flex-direction: row; " id = "containercategoryitem">
+    <div style = "display: none; justify-content: space-around;  flex-direction: row; " id = "containercategoryitem">
       <%- include('items/piattoCategoryItem');-%>
       <%- include('items/piattoCategoryItem');-%>
       <%- include('items/piattoCategoryItem');-%>

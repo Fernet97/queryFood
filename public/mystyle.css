@@ -126,8 +126,10 @@ a.page-link{
 	flex-direction: column;
 	width: 400px;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
   padding: 10px;
+	height: 380px;
+
 }
 
 .piattoCategoryItem:hover{
