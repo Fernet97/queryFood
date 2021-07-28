@@ -38,8 +38,8 @@ const dishfload = Schema
     {
     _id : { type: Number},
     name: { type: String },
-    Cuisine : {type: String, index: true},
-    ingredients : {type : Object, index: true} ,
+    Cuisine : {type: String},
+    ingredients : [{ingredient_name:{type : String},categoria:{type : String},alias_ingredient:{type : String}}],
     }
 );
 
@@ -47,10 +47,15 @@ var dishfloadModel =  mongoose.model('dishfload', dishfload)
 
 
 /********* QUERY CERCA PIATTO PER INGREDIENTE ************/
-pattern = "salt";
+
+
+
 var findRecipeByIngredient = function(ingredient,from,to){
-  var query = dishfloadModel.find({"ingredients.alias_ingredient": {"$regex": ingredient,"$options":"i"}}).skip(from).limit(to);
+
+  var query = dishfloadModel.find({"ingredients.ingredient_name":
+   {"$regex": ingredient,"$options":"i"}}).skip(from).limit(to);
   return query;
+
 }
 
 
@@ -59,12 +64,14 @@ var findRecipeByIngredient = function(ingredient,from,to){
 
 
 /********* QUERY CERCA PIATTO PER PIU CATEGORIE DI INGREDIENTI ************/
-var cat = ['Fruit','Spice'];
+
+
+
 var findRecipeByCategory = function(cat , from , to ){
- //cat = ["Spice", "Meat"]
+ 
  cat = JSON.parse(cat)
- console.log(cat)
- var query = dishfloadModel.find({"ingredients.categoria":{$all:cat}}).skip(from).limit(to);
+ var query = dishfloadModel.find({"ingredients.categoria":
+ {$all:cat}}).skip(from).limit(to);
  return query
 
 }
@@ -77,8 +84,8 @@ var findRecipeByCategory = function(cat , from , to ){
 
 var findRecipeByNation = function(nation , from , to ){
 
-	//var query = dishfloadModel.find({Cuisine: nation});
-  var query = dishfloadModel.find({"Cuisine": {"$regex": nation,"$options":"i"}}).skip(from).limit(to);
+  var query = dishfloadModel.find({"Cuisine":
+   {"$regex": nation,"$options":"i"}}).skip(from).limit(to);
 	return query;
 
 }
@@ -99,6 +106,9 @@ return query;
 }
 
 /********* QUERY CERCA TOP INGREDIENTI PER NAZIONI ************/
+
+
+
 var findTopIngredientByCuisine = function(cuisine){
 
  var query = dishfloadModel.aggregate([
@@ -166,6 +176,8 @@ return query;
 
 
 /********* QUERY CERCA TOP NAZIONI PER INGREDIENTE ************/
+
+
 var findTopCuisineByIngredient = function(pattern){
 
  var query = dishfloadModel.aggregate([
