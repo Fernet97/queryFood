@@ -66,14 +66,35 @@
                                                                                                                             var elements = document.getElementsByClassName("TitleRecipe");
                                                                                                                             var elementsD = document.getElementsByClassName("RecipeContent");
                                                                                                                             var item = document.getElementsByClassName("piattoinListItem");
-
-                                                                                                                            let i = 0
+                                                                                                                            var elementsImage = document.getElementsByClassName("imgInItem3");
+                                                                                                                            let i = 0;
+                                                                                                                            let z = 0;
                                                                                                                             for( i = 0; i < result.ricette.length; i = i+1 , k+=1 )
                                                                                                                             {
+                                                                                                                              const settings = {
+                                                                                                                                 "async": true,
+                                                                                                                                 "crossDomain": true,
+                                                                                                                                 "url": "https://bing-image-search1.p.rapidapi.com/images/search?q="+result.ricette[i].name,
+                                                                                                                                 "method": "GET",
+                                                                                                                                 "headers": {
+                                                                                                                                   "x-rapidapi-key": "ec93995b4dmsh2d2c7afa5870d4cp1a18b5jsn2347d0d21bae",
+                                                                                                                                   "x-rapidapi-host": "bing-image-search1.p.rapidapi.com"
+                                                                                                                                 }
+                                                                                                                             };
+
+                                                                                                                            setTimeout(function () {
+                                                                                                                              $.ajax(settings).done(function (response) {
+                                                                                                                                console.log("get immagine ...");
+                                                                                                                                console.log(response.value[0].contentUrl);
+                                                                                                                               elementsImage[z].src = response.value[0].contentUrl;
+                                                                                                                               z = z+1;
+                                                                                                                              });
+                                                                                                                            }, 1000*z);
+
                                                                                                                               //console.log(elements[i]);
                                                                                                                               elements[i].innerHTML = result.ricette[i].name;
                                                                                                                               item[i].style.display = 'flex'
-																															  elementsD[i].innerHTML = "";
+																									                                                                           elementsD[i].innerHTML = "";
                                                                                                                               for(let j = 0; j < result.ricette[i].ingredients.length; j = j+ 1)
                                                                                                                                   elementsD[i].innerHTML  = elementsD[i].innerHTML +
 																																  " · " + result.ricette[i].ingredients[j].alias_ingredient;
@@ -104,7 +125,6 @@
                   var elementsImage = document.getElementsByClassName("imgInItem3");
                   var item = document.getElementsByClassName("piattoinListItem");
 
-
                   for(let i = 0; i < result.ricette.length; i = i+ 1)
                   {
                     if(elementsTitles[i])
@@ -117,16 +137,21 @@
                               "url": "https://bing-image-search1.p.rapidapi.com/images/search?q="+result.ricette[i].name,
                               "method": "GET",
                               "headers": {
-                                "x-rapidapi-key": "ec93995b4dmsh2d2c7afa5870d4cp1a18b5jsn2347d0d21baeMMMH",
+                                "x-rapidapi-key": "ec93995b4dmsh2d2c7afa5870d4cp1a18b5jsn2347d0d21bae",
                                 "x-rapidapi-host": "bing-image-search1.p.rapidapi.com"
                               }
                           };
-                         $.ajax(settings).done(function (response) {
-                           //console.log(response.value[0].contentUrl);
-                          elementsImage[i].src = response.value[0].contentUrl;
-                         });
+
+                         setTimeout(function () {
+                           $.ajax(settings).done(function (response) {
+                             console.log("get immagine ...");
+                             console.log(response.value[0].contentUrl);
+                            elementsImage[i].src = response.value[0].contentUrl;
+                           });
+                         }, 1000*i);
                     }
 
+                    elementsDescriptions[i].innerHTML = "";
                     for(let j = 0; j < result.ricette[i].ingredients.length; j = j+ 1)
                         elementsDescriptions[i].innerHTML  = elementsDescriptions[i].innerHTML +
 						" · " + result.ricette[i].ingredients[j].alias_ingredient;
