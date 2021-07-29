@@ -38,6 +38,9 @@ NB: Fornire una key valida per bing-image-search per visualizzare le immagini di
 ## Dataset:
 Tutti i file csv sono stati scaricati da [CulinaryDB](https://cosylab.iiitd.edu.in/culinarydb/).
 
+## Altro
+Repository del progetto completo su [Github](https://github.com/Fernet97/queryFood).
+Tutti i file csv devono essere caricati nella cartella *CulinaryDB*
 
 
 **Authors**
